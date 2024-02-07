@@ -130,6 +130,27 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Get all heros (contain name)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/heroes/name/perm",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"heroes",
+						"name",
+						"perm"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

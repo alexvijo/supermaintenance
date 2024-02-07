@@ -16,6 +16,7 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -78,4 +79,12 @@ public class HeroControllerTest {
         mockMvc.perform(delete("/heroes/1"))
                 .andExpect(status().isNoContent());
     }
+
+    @Test
+    public void testGetHeroesByName() throws Exception {
+        when(heroService.findHeroesByName(anyString())).thenReturn(Arrays.asList(hero));
+        mockMvc.perform(get("/heroes/name/{nameString}", "perm"))
+                .andExpect(status().isOk());
+    }
+
 }

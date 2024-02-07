@@ -49,4 +49,10 @@ public class HeroController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/name/{nameString}")
+    public List<Hero> getHeroesByName(@PathVariable String nameString) {
+        return heroService.findHeroesByName(nameString);
+    }
+
 }

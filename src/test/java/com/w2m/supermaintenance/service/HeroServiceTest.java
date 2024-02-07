@@ -8,9 +8,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class HeroServiceTest {
@@ -66,5 +68,9 @@ public class HeroServiceTest {
         assertTrue(heroService.deleteHero(1L));
         verify(heroRepository, times(1)).existsById(1L);
         verify(heroRepository, times(1)).deleteById(1L);
+    }
+
+    public List<Hero> findHeroesByName(String nameString) {
+        return heroRepository.findAllByNameContainsIgnoreCase(nameString);
     }
 }

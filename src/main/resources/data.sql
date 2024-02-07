@@ -1,0 +1,10 @@
+INSERT INTO HERO (ID, NAME, DESCRIPTION) VALUES (1, 'Superman', 'Man of Steel');
+INSERT INTO HERO (ID, NAME, DESCRIPTION) VALUES (2, 'Batman', 'The Dark Knight');
+INSERT INTO HERO (ID, NAME, DESCRIPTION) VALUES (3, 'Wonder Woman', 'Amazonian Warrior Princess');
+INSERT INTO HERO (ID, NAME, DESCRIPTION) VALUES (4, 'Flash', 'The Fastest Man Alive');
+INSERT INTO HERO (ID, NAME, DESCRIPTION) VALUES (5, 'Green Lantern', 'Guardian of Sector 2814');
+INSERT INTO HERO (ID, NAME, DESCRIPTION) VALUES (6, 'Aquaman', 'King of Atlantis');
+INSERT INTO HERO (ID, NAME, DESCRIPTION) VALUES (7, 'Spider-Man', 'The Friendly Neighborhood');
+INSERT INTO HERO (ID, NAME, DESCRIPTION) VALUES (8, 'Black Widow', 'Master Spy');
+INSERT INTO HERO (ID, NAME, DESCRIPTION) VALUES (9, 'Thor', 'God of Thunder');
+INSERT INTO HERO (ID, NAME, DESCRIPTION) VALUES (10, 'Hulk', 'The Green Goliath');

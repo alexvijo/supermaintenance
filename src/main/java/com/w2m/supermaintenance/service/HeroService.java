@@ -48,4 +48,8 @@ public class HeroService {
             return false;
         }
     }
+    
+    public List<Hero> findHeroesByName(String nameString) {
+        return heroRepository.findAllByNameContainsIgnoreCase(nameString);
+    }
 }

@@ -1,20 +1,20 @@
 package com.w2m.supermaintenance.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "HERO")
 public class Hero {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
-    private String description;
 
-    // Getters and setters
+    @Column(name = "NAME")
+    private String name;
+
+    @Column(name = "DESCRIPTION")
+    private String description;
 
     public Long getId() {
         return id;
