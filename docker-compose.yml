@@ -1,0 +1,9 @@
+version: '3.7'
+services:
+  supermaintenance:
+    container_name: supermaintenance
+    build:
+      dockerfile: Dockerfile
+    image: supermaintenance:latest
+    ports:
+      - 8080:8080    
