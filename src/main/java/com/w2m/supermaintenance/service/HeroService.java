@@ -3,6 +3,7 @@ package com.w2m.supermaintenance.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,15 +24,22 @@ public class HeroService {
         return heroRepository.findAll();
     }
 
-    public Optional<Hero> findHeroById(Long id) {
+    public Optional<Hero> findHeroById(@NonNull Long id) {
         return heroRepository.findById(id);
     }
 
     public Hero saveHero(Hero hero) {
-        return heroRepository.save(hero);
+        Hero savedHero = null;
+        if (hero != null) {
+            Long heroId = hero.getId();
+            if (heroId != null && heroRepository.existsById(heroId)) {
+                savedHero = heroRepository.save(hero);
+            }
+        }
+        return savedHero;
     }
 
-    public Optional<Hero> updateHero(Long id, Hero heroDetails) {
+    public Optional<Hero> updateHero(@NonNull Long id, Hero heroDetails) {
         return heroRepository.findById(id)
                 .map(hero -> {
                     hero.setName(heroDetails.getName());
@@ -40,7 +48,7 @@ public class HeroService {
                 });
     }
 
-    public boolean deleteHero(Long id) {
+    public boolean deleteHero(@NonNull Long id) {
         if (heroRepository.existsById(id)) {
             heroRepository.deleteById(id);
             return true;

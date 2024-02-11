@@ -8,11 +8,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 public class HeroServiceTest {
@@ -47,8 +47,11 @@ public class HeroServiceTest {
     @Test
     public void testSaveHero() {
         Hero hero = new Hero();
+        hero.setId(1L); // Set ID to avoid null
+        when(heroRepository.existsById(anyLong())).thenReturn(true);
         when(heroRepository.save(any(Hero.class))).thenReturn(hero);
         assertNotNull(heroService.saveHero(hero));
+        verify(heroRepository, times(1)).existsById(anyLong());
         verify(heroRepository, times(1)).save(hero);
     }
 
@@ -70,7 +73,11 @@ public class HeroServiceTest {
         verify(heroRepository, times(1)).deleteById(1L);
     }
 
-    public List<Hero> findHeroesByName(String nameString) {
-        return heroRepository.findAllByNameContainsIgnoreCase(nameString);
+    @Test
+    public void testFindHeroesByName() {
+        Hero hero = new Hero();
+        when(heroRepository.findAllByNameContainsIgnoreCase(anyString())).thenReturn(Arrays.asList(hero));
+        assertEquals(1, heroService.findHeroesByName("name").size());
+        verify(heroRepository, times(1)).findAllByNameContainsIgnoreCase(anyString());
     }
 }

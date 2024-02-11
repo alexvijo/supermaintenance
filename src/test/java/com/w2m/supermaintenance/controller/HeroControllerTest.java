@@ -1,7 +1,8 @@
 package com.w2m.supermaintenance.controller;
 
-import com.w2m.supermaintenance.models.Hero;
+import com.w2m.supermaintenance.dto.HeroDto;
 import com.w2m.supermaintenance.service.HeroService;
+import com.w2m.supermaintenance.util.HeroConverter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,45 +32,45 @@ public class HeroControllerTest {
     @MockBean
     private HeroService heroService;
 
-    private Hero hero;
+    private HeroDto heroDto;
 
     @BeforeEach
     public void setUp() {
-        hero = new Hero();
-        hero.setId(1L);
-        hero.setName("Superman");
-        hero.setDescription("Man of Steel");
+        heroDto = new HeroDto();
+        heroDto.setId(1L);
+        heroDto.setName("Superman");
+        heroDto.setDescription("Man of Steel");
     }
 
     @Test
     public void testGetAllHeroes() throws Exception {
-        when(heroService.findAllHeroes()).thenReturn(Arrays.asList(hero));
+        when(heroService.findAllHeroes()).thenReturn(Arrays.asList(HeroConverter.convertToEntity(heroDto)));
         mockMvc.perform(get("/heroes"))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void testGetHeroById() throws Exception {
-        when(heroService.findHeroById(anyLong())).thenReturn(Optional.of(hero));
+        when(heroService.findHeroById(anyLong())).thenReturn(Optional.of(HeroConverter.convertToEntity(heroDto)));
         mockMvc.perform(get("/heroes/1"))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void testCreateHero() throws Exception {
-        when(heroService.saveHero(any(Hero.class))).thenReturn(hero);
+        when(heroService.saveHero(any())).thenReturn(HeroConverter.convertToEntity(heroDto));
         mockMvc.perform(post("/heroes")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"Superman\",\"description\":\"Man of Steel\"}"))
+                .content("{\"id\":1,\"name\":\"Superman\",\"description\":\"Man of Steel\"}"))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void testUpdateHero() throws Exception {
-        when(heroService.updateHero(anyLong(), any(Hero.class))).thenReturn(Optional.of(hero));
+        when(heroService.updateHero(anyLong(), any())).thenReturn(Optional.of(HeroConverter.convertToEntity(heroDto)));
         mockMvc.perform(put("/heroes/1")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"Superman\",\"description\":\"Man of Steel\"}"))
+                .content("{\"id\":1,\"name\":\"Superman\",\"description\":\"Man of Steel\"}"))
                 .andExpect(status().isOk());
     }
 
@@ -82,7 +83,7 @@ public class HeroControllerTest {
 
     @Test
     public void testGetHeroesByName() throws Exception {
-        when(heroService.findHeroesByName(anyString())).thenReturn(Arrays.asList(hero));
+        when(heroService.findHeroesByName(anyString())).thenReturn(Arrays.asList(HeroConverter.convertToEntity(heroDto)));
         mockMvc.perform(get("/heroes/name/{nameString}", "perm"))
                 .andExpect(status().isOk());
     }
