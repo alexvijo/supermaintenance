@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/heroes")
+@RequestMapping("/api/heroes")
 public class HeroController {
 
     private final HeroService heroService;
