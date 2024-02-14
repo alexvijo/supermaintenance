@@ -28,17 +28,6 @@ public class HeroService {
         return heroRepository.findById(id);
     }
 
-    public Hero saveHero(Hero hero) {
-        Hero savedHero = null;
-        if (hero != null) {
-            Long heroId = hero.getId();
-            if (heroId != null && heroRepository.existsById(heroId)) {
-                savedHero = heroRepository.save(hero);
-            }
-        }
-        return savedHero;
-    }
-
     public Optional<Hero> updateHero(@NonNull Long id, Hero heroDetails) {
         return heroRepository.findById(id)
                 .map(hero -> {

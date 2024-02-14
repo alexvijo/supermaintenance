@@ -47,13 +47,6 @@ public class HeroController {
         return ResponseEntity.ok(heroDto);
     }
 
-    @PostMapping
-    @LogExecutionTime
-    public ResponseEntity<HeroDto> createHero(@RequestBody HeroDto heroDto) {
-        HeroDto savedHeroDto = HeroConverter.convertToDto(heroService.saveHero(HeroConverter.convertToEntity(heroDto)));
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedHeroDto);
-    }
-
     @PutMapping("/{id}")
     @Caching(evict = {
             @CacheEvict(value="heroes", allEntries=true),

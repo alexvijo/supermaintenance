@@ -12,7 +12,6 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 public class HeroServiceTest {
@@ -45,24 +44,19 @@ public class HeroServiceTest {
     }
 
     @Test
-    public void testSaveHero() {
-        Hero hero = new Hero();
-        hero.setId(1L); // Set ID to avoid null
-        when(heroRepository.existsById(anyLong())).thenReturn(true);
-        when(heroRepository.save(any(Hero.class))).thenReturn(hero);
-        assertNotNull(heroService.saveHero(hero));
-        verify(heroRepository, times(1)).existsById(anyLong());
-        verify(heroRepository, times(1)).save(hero);
-    }
-
-    @Test
     public void testUpdateHero() {
         Hero hero = new Hero();
+        Hero updatedHero = new Hero();
+        updatedHero.setName("Updated Name");
+        updatedHero.setDescription("Updated Description");
         when(heroRepository.findById(1L)).thenReturn(Optional.of(hero));
-        when(heroRepository.save(any(Hero.class))).thenReturn(hero);
-        assertTrue(heroService.updateHero(1L, hero).isPresent());
+        when(heroRepository.save(any(Hero.class))).thenReturn(updatedHero);
+        Optional<Hero> result = heroService.updateHero(1L, updatedHero);
+        assertTrue(result.isPresent());
+        assertEquals("Updated Name", result.get().getName());
+        assertEquals("Updated Description", result.get().getDescription());
         verify(heroRepository, times(1)).findById(1L);
-        verify(heroRepository, times(1)).save(hero);
+        verify(heroRepository, times(1)).save(any(Hero.class));
     }
 
     @Test

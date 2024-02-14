@@ -59,7 +59,10 @@ public class AuthControllerTest {
 
     @Test
     public void testAuthenticateUser() throws Exception {
-        User user = userRepository.findByUsername("Superman");
+        User user = new User();
+        user.setUsername("Superman");
+        when(userRepository.findByUsername("Superman")).thenReturn(user);
+
         Authentication auth = new UsernamePasswordAuthenticationToken(
             UserDetailsImpl.build(user),
             null

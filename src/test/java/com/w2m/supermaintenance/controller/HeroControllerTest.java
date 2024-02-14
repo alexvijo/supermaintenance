@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -43,48 +44,46 @@ public class HeroControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void testGetAllHeroes() throws Exception {
         when(heroService.findAllHeroes()).thenReturn(Arrays.asList(HeroConverter.convertToEntity(heroDto)));
-        mockMvc.perform(get("/heroes"))
+        mockMvc.perform(get("/api/heroes"))
                 .andExpect(status().isOk());
     }
 
     @Test
+    @WithMockUser
     public void testGetHeroById() throws Exception {
         when(heroService.findHeroById(anyLong())).thenReturn(Optional.of(HeroConverter.convertToEntity(heroDto)));
-        mockMvc.perform(get("/heroes/1"))
+        mockMvc.perform(get("/api/heroes/1"))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void testCreateHero() throws Exception {
-        when(heroService.saveHero(any())).thenReturn(HeroConverter.convertToEntity(heroDto));
-        mockMvc.perform(post("/heroes")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"id\":1,\"name\":\"Superman\",\"description\":\"Man of Steel\"}"))
-                .andExpect(status().isOk());
-    }
-
-    @Test
+    @WithMockUser
     public void testUpdateHero() throws Exception {
         when(heroService.updateHero(anyLong(), any())).thenReturn(Optional.of(HeroConverter.convertToEntity(heroDto)));
-        mockMvc.perform(put("/heroes/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"id\":1,\"name\":\"Superman\",\"description\":\"Man of Steel\"}"))
-                .andExpect(status().isOk());
+        MediaType mediaType = MediaType.APPLICATION_JSON;
+        if (mediaType != null) {
+            mockMvc.perform(put("/api/heroes/1")
+                    .contentType(mediaType)
+                    .content("{\"id\":1,\"name\":\"Superman\",\"description\":\"Man of Steel\"}"))
+                    .andExpect(status().isOk());
+        }
     }
 
     @Test
+    @WithMockUser
     public void testDeleteHero() throws Exception {
-        when(heroService.deleteHero(anyLong())).thenReturn(true);
-        mockMvc.perform(delete("/heroes/1"))
+        mockMvc.perform(delete("/api/heroes/1"))
                 .andExpect(status().isNoContent());
     }
 
     @Test
+    @WithMockUser
     public void testGetHeroesByName() throws Exception {
         when(heroService.findHeroesByName(anyString())).thenReturn(Arrays.asList(HeroConverter.convertToEntity(heroDto)));
-        mockMvc.perform(get("/heroes/name/{nameString}", "perm"))
+        mockMvc.perform(get("/api/heroes/name/{nameString}", "perm"))
                 .andExpect(status().isOk());
     }
 

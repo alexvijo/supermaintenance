@@ -80,53 +80,18 @@
 					"response": []
 				},
 				{
-					"name": "Create hero",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded",
-								"type": "text"
-							},
-							{
-								"key": "Authorization",
-								"value": "{{accessToken}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"name\": \"Superman\",\n    \"description\": \"Man of Steel\"\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/api/heroes",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"api",
-								"heroes"
-							]
+					"name": "Update hero by id",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true
 						}
 					},
-					"response": []
-				},
-				{
-					"name": "Update hero by id",
 					"request": {
 						"method": "PUT",
 						"header": [
 							{
 								"key": "Content-Type",
-								"value": "application/x-www-form-urlencoded",
+								"value": "application/json",
 								"type": "text"
 							},
 							{
