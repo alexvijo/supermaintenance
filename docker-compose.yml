@@ -3,6 +3,7 @@ services:
   supermaintenance:
     container_name: supermaintenance
     build:
+      context: .
       dockerfile: Dockerfile
     image: supermaintenance:latest
     ports:
