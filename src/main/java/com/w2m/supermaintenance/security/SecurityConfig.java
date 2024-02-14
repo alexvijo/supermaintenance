@@ -63,6 +63,7 @@ public class SecurityConfig {
         .authorizeRequests()
         .antMatchers("/api/auth/**").permitAll()
         .antMatchers("/api/heroes/**").authenticated()
+        .antMatchers("/swagger-ui.html", "/v2/api-docs", "/webjars/**", "/swagger-resources/**").permitAll()
         .anyRequest().authenticated();
 
         http.authenticationProvider(authenticationProvider());
