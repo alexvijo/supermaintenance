@@ -5,6 +5,10 @@ import com.w2m.supermaintenance.dto.HeroDto;
 import com.w2m.supermaintenance.exception.HeroNotFoundException;
 import com.w2m.supermaintenance.service.HeroService;
 import com.w2m.supermaintenance.util.HeroConverter;
+
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
@@ -24,6 +28,7 @@ public class HeroController {
     }
 
     @GetMapping
+    @Cacheable("heroes")
     @LogExecutionTime
     public ResponseEntity<List<HeroDto>> getAllHeroes() {
         List<HeroDto> heroDtos = heroService.findAllHeroes().stream()
@@ -33,6 +38,7 @@ public class HeroController {
     }
 
     @GetMapping("/{id}")
+    @Cacheable(value = "heroe")
     @LogExecutionTime
     public ResponseEntity<HeroDto> getHeroById(@PathVariable @NonNull Long id) {
         HeroDto heroDto = heroService.findHeroById(id)
@@ -49,6 +55,10 @@ public class HeroController {
     }
 
     @PutMapping("/{id}")
+    @Caching(evict = {
+            @CacheEvict(value="heroes", allEntries=true),
+            @CacheEvict(value="heroesByName", allEntries=true),
+            @CacheEvict(value="heroe", allEntries=true)})
     @LogExecutionTime
     public ResponseEntity<HeroDto> updateHero(@PathVariable @NonNull Long id, @RequestBody HeroDto heroDto) {
         HeroDto updatedHeroDto = heroService.updateHero(id, HeroConverter.convertToEntity(heroDto))
@@ -58,6 +68,10 @@ public class HeroController {
     }
 
     @DeleteMapping("/{id}")
+    @Caching(evict = {
+            @CacheEvict(value="heroes", allEntries=true),
+            @CacheEvict(value="heroesByName", allEntries=true),
+            @CacheEvict(value="heroe", allEntries=true)})
     @LogExecutionTime
     public ResponseEntity<Void> deleteHero(@PathVariable @NonNull Long id) {
         heroService.deleteHero(id);
@@ -65,6 +79,7 @@ public class HeroController {
     }
 
     @GetMapping("/name/{nameString}")
+    @Cacheable(value = "heroesByName")
     @LogExecutionTime
     public ResponseEntity<List<HeroDto>> getHeroesByName(@PathVariable String nameString) {
         List<HeroDto> heroDtos = heroService.findHeroesByName(nameString).stream()
